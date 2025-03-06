@@ -1,11 +1,9 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import React, { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
-// import Navbar from "../components/Navbar"
+import Navbar from "../components/Navbar"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
 import { Input } from "../components/ui/input"
@@ -18,6 +16,7 @@ export default function Signup() {
     email: "",
     password: "",
     confirmPassword: "",
+    role: "",
   })
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState({
@@ -25,10 +24,11 @@ export default function Signup() {
     email: "",
     password: "",
     confirmPassword: "",
+    role: "",
   })
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
 
@@ -72,39 +72,47 @@ export default function Signup() {
     return valid
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!validateForm()) return
 
     setIsLoading(true)
 
-    // Simulate API call
-    setTimeout(() => {
-      // In a real app, you would make an API call to register the user
-      // For demo purposes, we'll just store in localStorage
-      localStorage.setItem(
-        "fintrack_user",
-        JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          isLoggedIn: true,
-        }),
-      )
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
 
+      if (response.ok) {
+        const user = await response.json()
+        localStorage.setItem("fintrack_user", JSON.stringify(user))
+        navigate("/dashboard")
+      } else {
+        const data = await response.json()
+        setErrors((prev) => ({ ...prev, email: data.message || "Registration failed" }))
+      }
+    } catch (error) {
+      setErrors((prev) => ({ ...prev, email: "An error occurred. Please try again." }))
+    } finally {
       setIsLoading(false)
-      navigate("/dashboard")
-    }, 1500)
+    }
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* <Navbar /> */}
-      <div className="flex flex-1 items-center justify-center bg-muted/40 p-4">
-        <Card className="w-full max-w-md">
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
+      <div className="flex flex-1 items-center justify-center p-6">
+        <Card className="w-full max-w-md shadow-sm">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center">Create an account</CardTitle>
-            <CardDescription className="text-center">Enter your information to create your account</CardDescription>
+            <CardTitle className="text-2xl font-bold text-center">Sign Up</CardTitle>
+            <CardDescription className="text-center text-gray-600">
+              Enter your information to create your account.
+            </CardDescription>
           </CardHeader>
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-4">
@@ -117,8 +125,9 @@ export default function Signup() {
                   value={formData.name}
                   onChange={handleChange}
                   required
+                  className="focus:ring-2 focus:ring-indigo-500"
                 />
-                {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
+                {errors.name && <p className="text-sm text-red-600">{errors.name}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
@@ -130,8 +139,9 @@ export default function Signup() {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  className="focus:ring-2 focus:ring-indigo-500"
                 />
-                {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+                {errors.email && <p className="text-sm text-red-600">{errors.email}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
@@ -144,6 +154,7 @@ export default function Signup() {
                     value={formData.password}
                     onChange={handleChange}
                     required
+                    className="focus:ring-2 focus:ring-indigo-500 pr-10"
                   />
                   <Button
                     type="button"
@@ -152,11 +163,11 @@ export default function Signup() {
                     className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? <EyeOff className="h-5 w-5 text-gray-500" /> : <Eye className="h-5 w-5 text-gray-500" />}
                     <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
                   </Button>
                 </div>
-                {errors.password && <p className="text-sm text-destructive">{errors.password}</p>}
+                {errors.password && <p className="text-sm text-red-600">{errors.password}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
@@ -168,17 +179,39 @@ export default function Signup() {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   required
+                  className="focus:ring-2 focus:ring-indigo-500"
                 />
-                {errors.confirmPassword && <p className="text-sm text-destructive">{errors.confirmPassword}</p>}
+                {errors.confirmPassword && <p className="text-sm text-red-600">{errors.confirmPassword}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="role">Role</Label>
+                <select
+                  id="role"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  required
+                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
+                >
+                  <option value="">Select a role</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Admin">Admin</option>
+                  <option value="User">User</option>
+                </select>
+                {errors.role && <p className="text-sm text-red-600">{errors.role}</p>}
               </div>
             </CardContent>
             <CardFooter className="flex flex-col space-y-4">
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button
+                type="submit"
+                className="w-full bg-indigo-600 hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500"
+                disabled={isLoading}
+              >
                 {isLoading ? "Creating account..." : "Create account"}
               </Button>
-              <div className="text-center text-sm">
+              <div className="text-center text-sm text-gray-600">
                 Already have an account?{" "}
-                <Link to="/login" className="text-primary underline-offset-4 hover:underline">
+                <Link to="/login" className="text-indigo-600 hover:text-indigo-500">
                   Login
                 </Link>
               </div>
@@ -189,4 +222,3 @@ export default function Signup() {
     </div>
   )
 }
-

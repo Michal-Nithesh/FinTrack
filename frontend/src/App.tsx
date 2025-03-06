@@ -5,6 +5,7 @@ import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
 import { useEffect, useState } from "react"
+import "./index.css"
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
