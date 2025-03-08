@@ -1,30 +1,30 @@
-package com.example.fintrack.controller;
+package com.fintrack.fintrack.controller;
 
-import com.example.fintrack.model.User;
-import com.example.fintrack.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fintrack.fintrack.dto.AuthResponse;
+import com.fintrack.fintrack.dto.LoginRequest;
+import com.fintrack.fintrack.dto.SignupRequest;
+import com.fintrack.fintrack.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        User registeredUser = authService.registerUser(user);
-        return ResponseEntity.ok(registeredUser);
+    public ResponseEntity<AuthResponse> register(@RequestBody SignupRequest request) {
+        AuthResponse response = authService.registerUser(request);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user) {
-        boolean isAuthenticated = authService.authenticateUser(user.getEmail(), user.getPassword());
-        if (isAuthenticated) {
-            return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(401).body("Invalid email or password");
-        }
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+        AuthResponse response = authService.authenticateUser(request);
+        return ResponseEntity.ok(response);
     }
 }
