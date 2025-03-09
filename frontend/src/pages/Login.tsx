@@ -9,20 +9,22 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 
-export default function Login() {
+export default function Login({ setIsAuthenticated }) {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   })
-  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
+  // ✅ Fix: Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    if (error) setError("")
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,24 +40,32 @@ export default function Login() {
     try {
       const response = await fetch("http://localhost:8080/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       })
 
-      if (response.ok) {
-        // Save user data to localStorage or context
-        const user = await response.json()
-        localStorage.setItem("fintrack_user", JSON.stringify(user))
-        navigate("/dashboard")
-      } else {
+      if (!response.ok) {
         setError("Invalid email or password")
+        return
       }
-    } catch {
+
+      const user = await response.json()
+
+      if (user.token) {
+        // ✅ Save user data with the correct key and isLoggedIn property
+        const userData = {
+          ...user,
+          isLoggedIn: true, // Add this property
+        }
+        localStorage.setItem("fintrack", JSON.stringify(userData)) // Use the correct key
+
+        // Navigate to /dashboard
+        navigate("/dashboard", { replace: true })
+      } else {
+        setError("Login failed. Token missing.")
+      }
+    } catch (error) {
+      console.error("Login error:", error)
       setError("An error occurred. Please try again.")
     } finally {
       setIsLoading(false)
@@ -89,7 +99,7 @@ export default function Login() {
                   type="email"
                   placeholder="john@example.com"
                   value={formData.email}
-                  onChange={handleChange}
+                  onChange={handleChange} // ✅ Now this works!
                   required
                   className="focus:ring-2 focus:ring-indigo-500"
                 />
@@ -108,7 +118,7 @@ export default function Login() {
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     value={formData.password}
-                    onChange={handleChange}
+                    onChange={handleChange} // ✅ Now this works!
                     required
                     className="focus:ring-2 focus:ring-indigo-500 pr-10"
                   />

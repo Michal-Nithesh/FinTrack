@@ -31,11 +31,11 @@ export default function Dashboard() {
 
   useEffect(() => {
     // Check if user is logged in
-    const storedUser = localStorage.getItem("fintrack_user")
+    const storedUser = localStorage.getItem("fintrack") // Use the correct key
 
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser)
-      if (parsedUser.isLoggedIn) {
+      if (parsedUser.isLoggedIn) { // Check the isLoggedIn property
         setUser(parsedUser)
         setIsLoading(false)
         return
