@@ -21,7 +21,7 @@ export default function Navbar({ user, showMenu = false }: NavbarProps) {
     if (user) {
       // Update localStorage
       localStorage.setItem(
-        "fintrack_user",
+        "fintrack",
         JSON.stringify({
           ...user,
           isLoggedIn: false,
@@ -112,10 +112,10 @@ export default function Navbar({ user, showMenu = false }: NavbarProps) {
               </div>
             </div>
             <DropdownMenuItem asChild>
-              <Link to="#">Profile</Link>
+              <Link to="/profile">Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="#">Settings</Link>
+              <Link to="/settings">Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
           </DropdownMenuContent>

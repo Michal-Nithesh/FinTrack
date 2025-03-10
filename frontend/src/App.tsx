@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
+import Profile from "./pages/Profile"
+import Settings from "./pages/Settings"
 import { useEffect, useState } from "react"
 import "./index.css"
 
@@ -49,6 +51,8 @@ function App() {
       <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
+	  <Route path="/profile" element={<Profile />} />
+	  <Route path="/settings" element={<settings />} />
     </Routes>
   )
 }
