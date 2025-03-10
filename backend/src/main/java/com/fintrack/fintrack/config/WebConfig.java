@@ -10,13 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable(); // Enable CORS and disable CSRF
-        return http.build();
-    }
+public class WebConfig {
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {

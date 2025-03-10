@@ -4,6 +4,7 @@ import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
 import Profile from "./pages/Profile"
 import Settings from "./pages/Settings"
+import Layout from "./components/Layout"
 import { useEffect, useState } from "react"
 import "./index.css"
 
@@ -22,6 +23,26 @@ function App() {
     return false
   })
 
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null)
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("fintrack")
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser)
+        setUser({ name: parsedUser.name, email: parsedUser.email })
+      } catch (error) {
+        console.error("Error parsing localStorage:", error)
+      }
+    }
+  }, [])
+
+  const handleLogout = () => {
+    setIsAuthenticated(false)
+    setUser(null)
+    localStorage.removeItem("fintrack")
+  }
+
   useEffect(() => {
     const handleStorageChange = () => {
       const storedUser = localStorage.getItem("fintrack")
@@ -29,11 +50,13 @@ function App() {
         try {
           const parsedUser = JSON.parse(storedUser)
           setIsAuthenticated(!!parsedUser.token)
+          setUser({ name: parsedUser.name, email: parsedUser.email })
         } catch (error) {
           console.error("Error parsing localStorage:", error)
         }
       } else {
         setIsAuthenticated(false)
+        setUser(null)
       }
     }
 
@@ -48,11 +71,23 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
-      <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+      <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} setUser={setUser} />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
-	  <Route path="/profile" element={<Profile />} />
-	  <Route path="/settings" element={<Settings />} />
+
+      {/* Authenticated Routes */}
+      <Route
+        element={
+          isAuthenticated && user ? (
+            <Layout user={user} onLogout={handleLogout} />
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+      >
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
+      </Route>
     </Routes>
   )
 }

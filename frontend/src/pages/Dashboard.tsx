@@ -15,7 +15,7 @@ import {
   CheckSquare, 
   BarChart, 
   Users, 
-  Settings
+  // Settings
 } from "lucide-react"
 import Navbar from "../components/Navbar"
 import { Button } from "../components/ui/button"
@@ -34,14 +34,6 @@ export default function Dashboard() {
   const navigate = useNavigate()
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const navItems = [
-    { name: "Dashboard", href: "/", icon: LayoutDashboard },
-    { name: "Expenses", href: "/expenses", icon: Receipt },
-    { name: "Approvals", href: "/approvals", icon: CheckSquare },
-    { name: "Analytics", href: "/analytics", icon: BarChart },
-    { name: "Users", href: "/users", icon: Users },
-    { name: "Settings", href: "/settings", icon: Settings },
-  ];
 
   useEffect(() => {
     // Check if user is logged in
@@ -71,23 +63,7 @@ export default function Dashboard() {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar user={user!} showMenu={true} />
-      <div className="grid flex-1 md:grid-cols-[220px_1fr]">
-	  <aside className="hidden border-r md:block">
-	        <div className="flex h-full flex-col gap-2 p-4">
-	          <nav className="grid gap-1">
-	            {navItems.map((item, index) => (
-	              <Button 
-	                key={index} 
-	                variant={index === 0 ? "secondary" : "ghost"} 
-	                className="justify-start gap-2"
-	              >
-	                <item.icon className="h-4 w-4" />
-	                {item.name}
-	              </Button>
-	            ))}
-	          </nav>
-	        </div>
-	      </aside>
+      <div className="flex-1">
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
           <div className="flex items-center gap-4">
             <h1 className="text-xl font-semibold md:text-2xl">Dashboard</h1>
@@ -199,4 +175,3 @@ export default function Dashboard() {
     </div>
   )
 }
-
