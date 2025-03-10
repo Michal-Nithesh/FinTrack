@@ -52,7 +52,7 @@ function App() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
 	  <Route path="/profile" element={<Profile />} />
-	  <Route path="/settings" element={<settings />} />
+	  <Route path="/settings" element={<Settings />} />
     </Routes>
   )
 }
