@@ -6,6 +6,7 @@ interface AvatarProps {
   alt?: string;
   fallback?: string;
   className?: string;
+  children?: React.ReactNode;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ src, alt, fallback = "U", className }) => {

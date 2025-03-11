@@ -1,4 +1,4 @@
-import { ApprovalTable } from "@/components/approval-table"
+import { ApprovalTable } from "../components/approval-table"
 
 export default function ApprovalsPage() {
   return (

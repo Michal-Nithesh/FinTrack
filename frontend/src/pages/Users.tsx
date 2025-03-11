@@ -1,5 +1,5 @@
-import { UserTable } from "@/components/user-table"
-import { Button } from "@/components/ui/button"
+import { UserTable } from "../components/user-table"
+import { Button } from "../components/ui/button"
 import { PlusCircle } from "lucide-react"
 
 export default function UsersPage() {

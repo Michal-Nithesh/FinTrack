@@ -4,12 +4,12 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Button } from "../components/ui/button"
-import { Input } from "../components/ui/input"
-import { Label } from "../components/ui/label"
-import { Textarea } from "../components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select"
-import { Card, CardContent } from "../components/ui/card"
+import { Button } from "../ui/button"
+import { Input } from "../ui/input"
+import { Label } from "../ui/label"
+import { Textarea } from "../ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { Card, CardContent } from "../ui/card"
 import { Upload, X } from "lucide-react"
 
 export function ExpenseForm() {
@@ -54,16 +54,16 @@ export function ExpenseForm() {
           <Label htmlFor="category">Category</Label>
           <Select>
             <SelectTrigger id="category">
-              <SelectValue placeholder="Select category" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="travel">Travel</SelectItem>
-              <SelectItem value="food">Food & Dining</SelectItem>
-              <SelectItem value="office">Office Supplies</SelectItem>
-              <SelectItem value="software">Software</SelectItem>
-              <SelectItem value="events">Events</SelectItem>
-              <SelectItem value="utilities">Utilities</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
+              <SelectItem data-value="travel">Travel</SelectItem>
+              <SelectItem data-value="food">Food & Dining</SelectItem>
+              <SelectItem data-value="office">Office Supplies</SelectItem>
+              <SelectItem data-value="software">Software</SelectItem>
+              <SelectItem data-value="events">Events</SelectItem>
+              <SelectItem data-value="utilities">Utilities</SelectItem>
+              <SelectItem data-value="other">Other</SelectItem>
             </SelectContent>
           </Select>
         </div>

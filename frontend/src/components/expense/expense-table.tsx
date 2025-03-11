@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../components/ui/table"
-import { Badge } from "../components/ui/badge"
-import { Button } from "../components/ui/button"
-import { Input } from "../components/ui/input"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
+import { Badge } from "../ui/badge"
+import { Button } from "../ui/button"
+import { Input } from "../ui/input"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +12,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../components/ui/dropdown-menu"
+} from "../ui/dropdown-menu"
 import { ChevronLeft, ChevronRight, Download, Eye, Filter, MoreHorizontal, Pencil, Search, Trash } from "lucide-react"
 
 export function ExpenseTable() {

@@ -4,21 +4,12 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   ArrowRightIcon,
-  BarChart3Icon,
   CreditCardIcon,
   DollarSignIcon,
-  HomeIcon,
   PieChartIcon,
-  PlusIcon,
-  LayoutDashboard, 
-  Receipt, 
-  CheckSquare, 
-  BarChart, 
-  Users, 
   // Settings
 } from "lucide-react"
 import Navbar from "../components/Navbar"
-import { Button } from "../components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { DashboardChart } from "../components/dashboard-chart"

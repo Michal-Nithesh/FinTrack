@@ -1,6 +1,6 @@
-import { ExpenseTrends } from "@/components/expense-trends"
-import { CategoryBreakdown } from "@/components/category-breakdown"
-import { Button } from "@/components/ui/button"
+import { ExpenseTrends } from "../components/expense-trends"
+import { CategoryBreakdown } from "../components/category-breakdown"
+import { Button } from "../components/ui/button"
 import { Download } from "lucide-react"
 
 export default function AnalyticsPage() {
