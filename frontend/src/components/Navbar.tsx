@@ -1,24 +1,34 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { LayoutDashboard, DollarSign, LogOut, Menu, User, Receipt, CheckSquare, BarChart, Users } from "lucide-react"
 import { Button } from "./ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
 
-interface NavbarProps {
-  user?: {
-    name: string
-    email: string
-  }
+interface UserProps {
+  name: string
+  email: string
 }
 
-export default function Navbar({ user }: NavbarProps) {
+export default function Navbar() {
   const navigate = useNavigate()
+  const [user, setUser] = useState<UserProps | null>(null)
+
+  // Load user from localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem("fintrack")
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser)
+      if (parsedUser.isLoggedIn) {
+        setUser(parsedUser)
+      }
+    }
+  }, [])
 
   const handleLogout = () => {
     if (user) {
-      // Update localStorage
       localStorage.setItem(
         "fintrack",
         JSON.stringify({
@@ -26,9 +36,8 @@ export default function Navbar({ user }: NavbarProps) {
           isLoggedIn: false,
         }),
       )
-
-      // Redirect to login
-      navigate("/login")
+      setUser(null) // ✅ Clear user state
+      navigate("/login") // Redirect to login
     }
   }
 
@@ -94,28 +103,30 @@ export default function Navbar({ user }: NavbarProps) {
       </div>
 
       {/* User Dropdown */}
-      <div className="flex items-center gap-4 pr-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" className="rounded-full">
-              <User className="h-5 w-5" />
-              <span className="sr-only">User menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <div className="flex items-center justify-start gap-2 p-2">
-              <div className="flex flex-col space-y-0.5">
-                <p className="text-sm font-medium">{user?.name}</p>
-                <p className="text-xs text-muted-foreground">{user?.email}</p>
+      {user && (
+        <div className="flex items-center gap-4 pr-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" className="rounded-full">
+                <User className="h-5 w-5" />
+                <span className="sr-only">User menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <div className="flex items-center justify-start gap-2 p-2">
+                <div className="flex flex-col space-y-0.5">
+                  <p className="text-sm font-medium">{user.name}</p>
+                  <p className="text-xs text-muted-foreground">{user.email}</p>
+                </div>
               </div>
-            </div>
-            <DropdownMenuItem asChild>
-              <Link to="/profile">Profile</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+              <DropdownMenuItem asChild>
+                <Link to="/profile">Profile</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )}
     </header>
   )
 }

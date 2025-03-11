@@ -67,10 +67,10 @@ export default function Dashboard() {
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
           <div className="flex items-center gap-4">
             <h1 className="text-xl font-semibold md:text-2xl">Dashboard</h1>
-            <Button size="sm" className="ml-auto gap-1">
+            {/*<Button size="sm" className="ml-auto gap-1">
               <PlusIcon className="h-4 w-4" />
               Add Expense
-            </Button>
+            </Button>*/}
           </div>
           <Tabs defaultValue="overview">
             <div className="flex items-center">
