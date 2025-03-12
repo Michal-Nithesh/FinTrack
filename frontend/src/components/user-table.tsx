@@ -91,7 +91,7 @@ export function UserTable() {
   ])
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mt-10">
       <div className="flex flex-col sm:flex-row gap-4 justify-between">
         <div className="flex w-full max-w-sm items-center space-x-2">
           <div className="relative w-full">
@@ -99,10 +99,10 @@ export function UserTable() {
             <Input type="search" placeholder="Search users..." className="w-full pl-8 bg-white dark:bg-gray-800" />
           </div>
         </div>
-        <Button>
+        {/* <Button>
           <UserPlus className="mr-2 h-4 w-4" />
           Invite User
-        </Button>
+        </Button> */}
       </div>
 
       <div className="rounded-md border">

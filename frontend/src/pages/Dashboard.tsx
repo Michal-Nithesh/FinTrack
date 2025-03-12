@@ -9,7 +9,7 @@ import {
   PieChartIcon,
   // Settings
 } from "lucide-react"
-import Navbar from "../components/Navbar"
+/*import Navbar from "../components/Navbar"*/
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { DashboardChart } from "../components/dashboard-chart"
@@ -53,11 +53,11 @@ export default function Dashboard() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar user={user!} showMenu={true} />
+      {/* <Navbar user={user!} showMenu={true} /> */}
       <div className="flex-1">
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+        <main className="flex flex-1 flex-col gap-4 p-2 md:gap-6 md:p-6">
           <div className="flex items-center gap-4">
-            <h1 className="text-xl font-semibold md:text-2xl">Dashboard</h1>
+            <h1 className="text-3xl font-bold md:text-2xl">Dashboard</h1>
             {/*<Button size="sm" className="ml-auto gap-1">
               <PlusIcon className="h-4 w-4" />
               Add Expense

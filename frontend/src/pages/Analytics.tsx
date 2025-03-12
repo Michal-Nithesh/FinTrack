@@ -5,7 +5,7 @@ import { Download } from "lucide-react"
 
 export default function AnalyticsPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Analytics & Reporting</h1>
         <div className="flex space-x-2">

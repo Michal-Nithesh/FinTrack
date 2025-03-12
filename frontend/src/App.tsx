@@ -4,6 +4,9 @@ import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
 import Expenses from "./pages/Expenses"
 import NewExpense from "./pages/NewExpenses"
+import Approvals from "./pages/Approvals"
+import Analytics from "./pages/Analytics"
+import Users from "./pages/Users"
 import Profile from "./pages/Profile"
 import Settings from "./pages/Settings"
 import Layout from "./components/Layout"
@@ -87,8 +90,11 @@ function App() {
         }
       >
         <Route path="/dashboard" element={<Dashboard />} />
-		    <Route path="/expenses" element={<Expenses />} />
-        <Route path="new" element={<NewExpense />} />
+		<Route path="/expenses" element={<Expenses />} />
+        <Route path="/expenses/new" element={<NewExpense />} />
+        <Route path="/approvals" element={<Approvals />} />
+        <Route path="/analytics" element={<Analytics />} />
+		<Route path="/Users" element={<Users />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
       </Route>

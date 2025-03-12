@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useNavigate } from "react-router-dom"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
@@ -13,7 +13,6 @@ import { Card, CardContent } from "../ui/card"
 import { Upload, X } from "lucide-react"
 
 export function ExpenseForm() {
-  const router = useRouter()
   const [files, setFiles] = useState<File[]>([])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,10 +25,12 @@ export function ExpenseForm() {
     setFiles(files.filter((_, i) => i !== index))
   }
 
+  const navigate = useNavigate()
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // In a real app, this would submit the form data to the backend
-    router.push("/expenses")
+    navigate("/expenses")
   }
 
   return (

@@ -2,6 +2,7 @@
 
 import { Outlet } from "react-router-dom"
 import Sidebar from "./Sidebar"
+import Navbar from "./Navbar"
 
 interface LayoutProps {
   user?: {
@@ -14,7 +15,7 @@ interface LayoutProps {
 export default function Layout({ user, onLogout }: LayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
-  
+	<Navbar />
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar (Hidden on mobile, visible on desktop) */}
         <div className="hidden md:block">
