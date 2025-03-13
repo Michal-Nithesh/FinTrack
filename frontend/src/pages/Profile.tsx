@@ -1,20 +1,22 @@
 "use client"
 
-import { useState } from "react"
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
-import { ArrowLeft } from "lucide-react" // Import the back arrow icon
+import { ArrowLeft } from "lucide-react"
+import axios from "axios"
+import { fetchProfile } from "../api/api";
 
 export default function ProfilePage() {
   const [profileData, setProfileData] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    role: "Software Engineer",
+    name: "",
+    email: "",
+    role: "",
   })
 
   const [isEditing, setIsEditing] = useState(false)
@@ -24,6 +26,24 @@ export default function ProfilePage() {
     newPassword: "",
     confirmPassword: "",
   })
+
+  useEffect(() => {
+    fetchProfileData()
+  }, [])
+
+  const fetchProfileData = async () => {
+    try {
+      const response = await fetchProfile();
+      if (response.data) {
+        setProfileData(response.data);
+        setTempProfileData(response.data);
+      } else {
+        console.error("No data received from the backend");
+      }
+    } catch (error) {
+      console.error("Failed to fetch profile data:", error);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -41,9 +61,14 @@ export default function ProfilePage() {
     })
   }
 
-  const handleSaveProfile = () => {
-    setProfileData(tempProfileData)
-    setIsEditing(false)
+  const handleSaveProfile = async () => {
+    try {
+      await axios.put("/api/user/profile", tempProfileData)
+      setProfileData(tempProfileData)
+      setIsEditing(false)
+    } catch (error) {
+      console.error("Failed to update profile:", error)
+    }
   }
 
   const handleCancelEdit = () => {
@@ -51,32 +76,37 @@ export default function ProfilePage() {
     setIsEditing(false)
   }
 
-  const handleChangePassword = () => {
+  const handleChangePassword = async () => {
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       alert("New password and confirm password do not match.")
       return
     }
-    // Add logic to update password (e.g., API call)
-    console.log("Password changed successfully:", passwordData)
-    setPasswordData({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    })
+
+    try {
+      await axios.put("/api/user/password", {
+        currentPassword: passwordData.currentPassword,
+        newPassword: passwordData.newPassword,
+      })
+      alert("Password changed successfully!")
+      setPasswordData({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      })
+    } catch (error) {
+      console.error("Failed to change password:", error)
+    }
   }
 
   return (
     <div className="container mx-auto py-8 px-4">
-	  <div className="flex items-center justify-between mb-6">
-	    {/* Back Button */}
-	    <Link className="flex items-center cursor-pointer space-x-2" to="/dashboard">
-	      <ArrowLeft className="h-5 w-5" />
-	      <span className="text-xl font-medium">Back to Dashboard</span>
-	    </Link>
-
-	    {/* Centered Heading */}
-	    <h1 className="text-3xl font-bold flex-grow text-center">My Profile</h1>
-	  </div>
+      <div className="flex items-center justify-between mb-6">
+        <Link className="flex items-center cursor-pointer space-x-2" to="/dashboard">
+          <ArrowLeft className="h-5 w-5" />
+          <span className="text-xl font-medium">Back to Dashboard</span>
+        </Link>
+        <h1 className="text-3xl font-bold flex-grow text-center">My Profile</h1>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
@@ -88,7 +118,14 @@ export default function ProfilePage() {
             <CardContent className="flex flex-col items-center justify-center py-6">
               <Avatar className="h-32 w-32">
                 <AvatarImage src="/placeholder.svg?height=128&width=128" alt="Profile" />
-                <AvatarFallback className="text-2xl">JD</AvatarFallback>
+				<AvatarFallback className="text-2xl">
+				  {profileData.name
+				    ? profileData.name
+				        .split(" ")
+				        .map((n) => n[0])
+				        .join("")
+				    : "JD"} {/* Fallback to "JD" if name is not available */}
+				</AvatarFallback>
               </Avatar>
               <div className="mt-4 text-center">
                 <h3 className="font-medium text-lg">{profileData.name}</h3>
