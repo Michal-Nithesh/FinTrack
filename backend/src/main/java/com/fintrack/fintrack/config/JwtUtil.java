@@ -13,7 +13,8 @@ public class JwtUtil {
 
     private final long EXPIRATION_TIME = 86400000; // 1 day
 
-    public String generateToken(String email) {
+    @SuppressWarnings("deprecation")
+	public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
@@ -22,7 +23,8 @@ public class JwtUtil {
                 .compact();
     }
 
-    public boolean validateToken(String token) {
+    @SuppressWarnings("deprecation")
+	public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
@@ -31,7 +33,8 @@ public class JwtUtil {
         }
     }
 
-    public String extractEmail(String token) {
+    @SuppressWarnings("deprecation")
+	public String extractEmail(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 }

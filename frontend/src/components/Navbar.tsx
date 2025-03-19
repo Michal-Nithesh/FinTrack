@@ -6,6 +6,7 @@ import { LayoutDashboard, DollarSign, LogOut, Menu, User, Receipt, CheckSquare, 
 import { Button } from "./ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
+import { fetchProfile } from "../api/api";
 
 interface UserProps {
   name: string
@@ -22,10 +23,23 @@ export default function Navbar() {
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser)
       if (parsedUser.isLoggedIn) {
-        setUser(parsedUser)
+		fetchProfileData();
+        //setUser(parsedUser)
       }
     }
   }, [])
+  const fetchProfileData = async () => {
+    try {
+      const response = await fetchProfile();
+      if (response.data) {
+        setUser(response.data);
+      } else {
+        console.error("No data received from the backend");
+      }
+    } catch (error) {
+      console.error("Failed to fetch profile data:", error);
+    }
+  };
 
   const handleLogout = () => {
     if (user) {

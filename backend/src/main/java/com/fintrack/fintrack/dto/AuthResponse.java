@@ -2,9 +2,11 @@ package com.fintrack.fintrack.dto;
 
 public class AuthResponse {
     private String token;
+    private String email;
 
-    public AuthResponse(String token) {
+    public AuthResponse(String token, String email) {
         this.token = token;
+        this.email = email;
     }
 
     public String getToken() {
@@ -14,4 +16,12 @@ public class AuthResponse {
     public void setToken(String token) {
         this.token = token;
     }
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }
