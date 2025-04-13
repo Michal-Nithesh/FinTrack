@@ -8,7 +8,12 @@ import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { Textarea } from "../ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import {
+  Select,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select"
 import { Card, CardContent } from "../ui/card"
 import { Upload, X } from "lucide-react"
 
@@ -38,13 +43,25 @@ export function ExpenseForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label htmlFor="description">Description</Label>
-          <Input id="description" placeholder="Brief description of expense" required />
+          <Input
+            id="description"
+            placeholder="Brief description of expense"
+            required
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="amount">Amount</Label>
           <div className="relative">
             <span className="absolute left-3 top-2.5">$</span>
-            <Input id="amount" type="number" step="0.01" min="0" className="pl-7" placeholder="0.00" required />
+            <Input
+              id="amount"
+              type="number"
+              step="0.01"
+              min="0"
+              className="pl-7"
+              placeholder="0.00"
+              required
+            />
           </div>
         </div>
         <div className="space-y-2">
@@ -53,36 +70,51 @@ export function ExpenseForm() {
         </div>
         <div className="space-y-2">
           <Label htmlFor="category">Category</Label>
-          <Select>
+            <Select onValueChange={(val) => console.log(val)} defaultValue="software">
             <SelectTrigger id="category">
-              <SelectValue />
+              <SelectValue  />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem data-value="travel">Travel</SelectItem>
-              <SelectItem data-value="food">Food & Dining</SelectItem>
-              <SelectItem data-value="office">Office Supplies</SelectItem>
-              <SelectItem data-value="software">Software</SelectItem>
-              <SelectItem data-value="events">Events</SelectItem>
-              <SelectItem data-value="utilities">Utilities</SelectItem>
-              <SelectItem data-value="other">Other</SelectItem>
-            </SelectContent>
-          </Select>
+              <SelectItem value="travel">Travel</SelectItem>
+              <SelectItem value="food">Food & Dining</SelectItem>
+              <SelectItem value="office">Office Supplies</SelectItem>
+              <SelectItem value="software">Software</SelectItem>
+              <SelectItem value="events">Events</SelectItem>
+              <SelectItem value="utilities">Utilities</SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </Select>
         </div>
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="notes">Additional Notes</Label>
-        <Textarea id="notes" placeholder="Any additional information about this expense" rows={4} />
+        <Textarea
+          id="notes"
+          placeholder="Any additional information about this expense"
+          rows={4}
+        />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="attachments">Attachments</Label>
         <div className="border-2 border-dashed rounded-lg p-6 text-center">
-          <Input id="attachments" type="file" multiple className="hidden" onChange={handleFileChange} />
-          <Label htmlFor="attachments" className="cursor-pointer flex flex-col items-center justify-center">
+          <Input
+            id="attachments"
+            type="file"
+            multiple
+            className="hidden"
+            onChange={handleFileChange}
+          />
+          <Label
+            htmlFor="attachments"
+            className="cursor-pointer flex flex-col items-center justify-center"
+          >
             <Upload className="h-10 w-10 text-muted-foreground mb-2" />
-            <span className="text-sm font-medium">Drag & drop files here or click to browse</span>
-            <span className="text-xs text-muted-foreground mt-1">Supported formats: PDF, JPG, PNG (Max 10MB)</span>
+            <span className="text-sm font-medium">
+              Drag & drop files here or click to browse
+            </span>
+            <span className="text-xs text-muted-foreground mt-1">
+              Supported formats: PDF, JPG, PNG (Max 10MB)
+            </span>
           </Label>
         </div>
 
@@ -95,9 +127,16 @@ export function ExpenseForm() {
                   <CardContent className="p-3 flex justify-between items-center">
                     <div className="flex items-center space-x-2">
                       <div className="text-sm">{file.name}</div>
-                      <div className="text-xs text-muted-foreground">{(file.size / 1024).toFixed(0)} KB</div>
+                      <div className="text-xs text-muted-foreground">
+                        {(file.size / 1024).toFixed(0)} KB
+                      </div>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={() => removeFile(index)} className="h-8 w-8">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeFile(index)}
+                      className="h-8 w-8"
+                    >
                       <X className="h-4 w-4" />
                     </Button>
                   </CardContent>
@@ -109,7 +148,11 @@ export function ExpenseForm() {
       </div>
 
       <div className="flex justify-end space-x-4">
-        <Button type="button" variant="outline" onClick={() => router.push("/expenses")}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => navigate("/expenses")}
+        >
           Cancel
         </Button>
         <Button type="submit">Submit Expense</Button>
@@ -117,4 +160,3 @@ export function ExpenseForm() {
     </form>
   )
 }
-
