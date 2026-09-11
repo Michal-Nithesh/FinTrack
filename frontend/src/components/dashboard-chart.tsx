@@ -3,6 +3,11 @@
 import { useEffect, useState } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 
+interface ChartDataPoint {
+  name: string
+  amount: number
+}
+
 // Sample data for the chart
 const generateChartData = () => [
   { name: "Jan", amount: Math.floor(Math.random() * 1000) + 500 },
@@ -14,7 +19,7 @@ const generateChartData = () => [
 ]
 
 export function DashboardChart() {
-  const [data, setData] = useState<any[]>([])
+  const [data, setData] = useState<ChartDataPoint[]>([])
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {

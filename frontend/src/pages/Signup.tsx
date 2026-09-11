@@ -89,14 +89,12 @@ export default function Signup() {
       })
 
       if (response.ok) {
-        const user = await response.json()
-        localStorage.setItem("fintrack_user", JSON.stringify(user))
-        navigate("/dashboard")
+        navigate("/login", { replace: true })
       } else {
         const data = await response.json()
         setErrors((prev) => ({ ...prev, email: data.message || "Registration failed" }))
       }
-    } catch (error) {
+    } catch {
       setErrors((prev) => ({ ...prev, email: "An error occurred. Please try again." }))
     } finally {
       setIsLoading(false)

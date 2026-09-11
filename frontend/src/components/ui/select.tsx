@@ -31,7 +31,7 @@ const SelectContent = React.forwardRef<
 SelectContent.displayName = "SelectContent"
 
 // SelectItem (adds value + onSelect support)
-interface SelectItemProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SelectItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onSelect"> {
   value: string
   onSelect?: (value: string) => void
 }
@@ -93,7 +93,7 @@ export const Select = ({
 
   const enhancedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement(child) && child.type === SelectItem) {
-      return React.cloneElement(child, {
+      return React.cloneElement(child as React.ReactElement<SelectItemProps>, {
         onSelect: handleSelect,
       })
     }

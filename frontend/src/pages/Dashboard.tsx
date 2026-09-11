@@ -15,15 +15,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { DashboardChart } from "../components/dashboard-chart"
 import { RecentTransactions } from "../components/recent-transactions"
 
-interface User {
-  name: string
-  email: string
-  isLoggedIn: boolean
-}
-
 export default function Dashboard() {
   const navigate = useNavigate()
-  const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -33,7 +26,6 @@ export default function Dashboard() {
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser)
       if (parsedUser.isLoggedIn) { // Check the isLoggedIn property
-        setUser(parsedUser)
         setIsLoading(false)
         return
       }

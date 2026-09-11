@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     build: ./backend
@@ -7,6 +5,9 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/fintrack
+      - SPRING_DATASOURCE_USERNAME=fintrack
+      - SPRING_DATASOURCE_PASSWORD=fintrackpassword
     depends_on:
       - db
 

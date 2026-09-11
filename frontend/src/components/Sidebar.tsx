@@ -12,7 +12,7 @@ interface SidebarProps {
   onLogout?: () => void
 }
 
-export default function Sidebar({ user, onLogout }: SidebarProps) {
+export default function Sidebar({ onLogout }: SidebarProps) {
   return (
     <aside className="w-48 border-r">
       <div className="flex h-full flex-col gap-2 p-4">

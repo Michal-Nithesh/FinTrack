@@ -9,7 +9,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 
-export default function Login({ setIsAuthenticated }) {
+interface LoginProps {
+  setIsAuthenticated: (authenticated: boolean) => void
+  setUser: (user: { name: string; email: string }) => void
+}
+
+export default function Login({ setIsAuthenticated, setUser }: LoginProps) {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: "",
@@ -58,6 +63,8 @@ export default function Login({ setIsAuthenticated }) {
           isLoggedIn: true, // Add this property
         }
         localStorage.setItem("fintrack", JSON.stringify(userData)) // Use the correct key
+        setUser({ name: user.name, email: user.email })
+        setIsAuthenticated(true)
 
         // Navigate to /dashboard
         navigate("/dashboard", { replace: true })

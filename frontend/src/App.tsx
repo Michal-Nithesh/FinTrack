@@ -94,7 +94,7 @@ function App() {
         <Route path="/expenses/new" element={<NewExpense />} />
         <Route path="/approvals" element={<Approvals />} />
         <Route path="/analytics" element={<Analytics />} />
-		<Route path="/Users" element={<Users />} />
+    <Route path="/users" element={<Users />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
       </Route>

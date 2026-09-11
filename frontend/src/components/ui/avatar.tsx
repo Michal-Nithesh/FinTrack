@@ -35,8 +35,8 @@ const AvatarImage: React.FC<{ src: string; alt?: string }> = ({ src, alt }) => (
   />
 );
 
-const AvatarFallback: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span className="text-sm font-medium text-gray-600">{children}</span>
+const AvatarFallback: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
+  <span className={cn("text-sm font-medium text-gray-600", className)}>{children}</span>
 );
 
 export { Avatar, AvatarImage, AvatarFallback };

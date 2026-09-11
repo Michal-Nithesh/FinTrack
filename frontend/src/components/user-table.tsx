@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "../components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
-import { MoreHorizontal, Pencil, Search, Trash, UserPlus } from "lucide-react"
+import { MoreHorizontal, Pencil, Search, Trash } from "lucide-react"
 
 export function UserTable() {
   const [users] = useState([
